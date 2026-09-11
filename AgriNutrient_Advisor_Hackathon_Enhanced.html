@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgriNutrient Advisor</title>
+
+<style>
+:root{
+    --green:#1b7f3a;
+    --dark:#124d2a;
+    --light:#f3f8f3;
+    --card:#ffffff;
+    --text:#203126;
+    --muted:#6b7b70;
+    --border:#dce8de;
+    --yellow:#fff6d8;
+    --shadow:0 10px 30px rgba(27,80,45,.10);
+}
+
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Inter,Arial,sans-serif;
+    background:linear-gradient(135deg,#eef8ef,#f8fbf7);
+    color:var(--text);
+}
+
+header{
+    background:linear-gradient(135deg,#126b31,#2e9b4e);
+    color:white;
+    padding:34px 20px 42px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,.12);
+}
+
+.logo{
+    width:70px;height:70px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:rgba(255,255,255,.16);
+    font-size:38px;
+}
+
+header h1{
+    margin:14px 0 8px;
+    font-size:34px;
+}
+
+header p{
+    margin:0;
+    opacity:.92;
+    font-size:16px;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:28px auto 50px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:25px;
+    box-shadow:var(--shadow);
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+.card h2{
+    margin-top:0;
+    color:var(--dark);
+    font-size:21px;
+}
+
+.card h3{
+    margin:25px 0 8px;
+    font-size:16px;
+}
+
+label{
+    display:block;
+    margin-top:15px;
+    margin-bottom:7px;
+    font-weight:700;
+    font-size:14px;
+}
+
+input,select{
+    width:100%;
+    padding:13px 14px;
+    border:1px solid #cddbd0;
+    border-radius:10px;
+    background:#fbfdfb;
+    font-size:15px;
+    outline:none;
+    transition:.2s;
+}
+
+input:focus,select:focus{
+    border-color:var(--green);
+    box-shadow:0 0 0 3px rgba(27,127,58,.10);
+}
+
+.two{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+button{
+    width:100%;
+    margin-top:23px;
+    padding:15px;
+    border:0;
+    border-radius:11px;
+    background:linear-gradient(135deg,#19783a,#2e9b4e);
+    color:white;
+    font-size:17px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-1px);
+    box-shadow:0 8px 18px rgba(27,127,58,.25);
+}
+
+.reset{
+    background:#eef4ef;
+    color:var(--dark);
+    margin-top:10px;
+}
+
+.result{
+    display:none;
+    animation:show .35s ease;
+}
+
+@keyframes show{
+    from{opacity:0;transform:translateY(10px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+.metrics{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin:18px 0;
+}
+
+.metric{
+    background:linear-gradient(145deg,#f1f9f2,#e7f4e9);
+    border:1px solid #d4e8d7;
+    padding:18px;
+    border-radius:14px;
+    text-align:center;
+}
+
+.metric small{
+    display:block;
+    color:var(--muted);
+    margin-bottom:7px;
+}
+
+.metric strong{
+    font-size:23px;
+    color:var(--dark);
+}
+
+.nutrients{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.nutrient{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px;
+}
+
+.nutrient strong{
+    font-size:20px;
+}
+
+.bar{
+    height:9px;
+    background:#e6eee7;
+    border-radius:20px;
+    margin-top:10px;
+    overflow:hidden;
+}
+
+.fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#2e9b4e,#7fbe62);
+    transition:width .7s ease;
+}
+
+.advice{
+    margin-top:18px;
+    padding:16px;
+    background:var(--yellow);
+    border:1px solid #f0dda0;
+    border-radius:12px;
+    line-height:1.55;
+}
+
+.info{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.5;
+}
+
+footer{
+    text-align:center;
+    color:var(--muted);
+    padding:0 20px 30px;
+    font-size:13px;
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:30px;
+    background:#e5f4e7;
+    color:var(--dark);
+    font-size:12px;
+    font-weight:700;
+}
+
+@media(max-width:800px){
+    .grid{grid-template-columns:1fr}
+    .full{grid-column:auto}
+    .metrics,.nutrients{grid-template-columns:1fr}
+    .two{grid-template-columns:1fr}
+    header h1{font-size:27px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🌱</div>
+    <h1>AgriNutrient Advisor</h1>
+    <p>Smart Organic Fertilizer & Compost Recommendation System</p>
+</header>
+
+<div class="container">
+
+<div class="grid">
+
+<div class="card">
+    <span class="badge">FARM DETAILS</span>
+    <h2>🌾 Enter Farm Information</h2>
+
+    <label>Crop</label>
+    <select id="crop">
+        <option value="wheat">Wheat</option>
+        <option value="rice">Rice</option>
+        <option value="cotton">Cotton</option>
+        <option value="vegetable">Vegetable</option>
+    </select>
+
+    <label>Field Area (acre)</label>
+    <input type="number" id="area" value="1" min="0.1" step="0.1">
+
+    <label>Crop Growth Stage</label>
+    <select id="stage">
+        <option>Initial</option>
+        <option>Vegetative</option>
+        <option>Flowering</option>
+        <option>Fruiting</option>
+    </select>
+</div>
+
+<div class="card">
+    <span class="badge">SOIL TEST</span>
+    <h2>🧪 Soil Nutrient Values</h2>
+
+    <div class="two">
+        <div>
+            <label>Nitrogen (kg/ha)</label>
+            <input type="number" id="soil_n" value="10" min="0">
+        </div>
+        <div>
+            <label>Phosphorus (kg/ha)</label>
+            <input type="number" id="soil_p" value="5" min="0">
+        </div>
+    </div>
+
+    <label>Potassium (kg/ha)</label>
+    <input type="number" id="soil_k" value="5" min="0">
+
+    <p class="info">Use values from a valid soil-test report whenever available.</p>
+</div>
+
+<div class="card full">
+    <span class="badge">ORGANIC MATERIAL</span>
+    <h2>♻️ Compost / Manure Information</h2>
+
+    <div class="two">
+        <div>
+            <label>Material</label>
+            <select id="material">
+                <option value="compost">Compost</option>
+                <option value="farmyard_manure">Farmyard Manure</option>
+                <option value="vermicompost">Vermicompost</option>
+                <option value="crop_residue_compost">Crop Residue Compost</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Material Price (₹/kg)</label>
+            <input type="number" id="price" value="5" min="0">
+        </div>
+    </div>
+
+    <div class="two">
+        <div>
+            <label>Nitrogen in material (%)</label>
+            <input type="number" id="mat_n" value="1.5" min="0" step="0.1">
+        </div>
+        <div>
+            <label>Phosphorus in material (%)</label>
+            <input type="number" id="mat_p" value="0.8" min="0" step="0.1">
+        </div>
+    </div>
+
+    <div class="two">
+        <div>
+            <label>Potassium in material (%)</label>
+            <input type="number" id="mat_k" value="1.0" min="0" step="0.1">
+        </div>
+        <div>
+            <label>Moisture (%)</label>
+            <input type="number" id="moisture" value="40" min="0" max="100">
+        </div>
+    </div>
+
+    <label>Carbon : Nitrogen Ratio (C:N)</label>
+    <input type="number" id="cn" value="25" min="1" step="1">
+
+    <button onclick="calculate()">🌱 Calculate Smart Recommendation</button>
+    <button class="reset" onclick="resetForm()">Reset</button>
+</div>
+
+<div class="card full result" id="result">
+    <span class="badge">SMART RESULT</span>
+    <h2>📊 Recommendation Dashboard</h2>
+
+    <p>
+        <strong>Crop:</strong> <span id="outCrop"></span>
+        &nbsp; | &nbsp;
+        <strong>Material:</strong> <span id="outMaterial"></span>
+        &nbsp; | &nbsp;
+        <strong>Stage:</strong> <span id="outStage"></span>
+    </p>
+
+    <div class="metrics">
+        <div class="metric">
+            <small>Minimum Application</small>
+            <strong id="minimum">0 kg</strong>
+        </div>
+        <div class="metric">
+            <small>Recommended Application</small>
+            <strong id="recommended">0 kg</strong>
+        </div>
+        <div class="metric">
+            <small>Estimated Cost</small>
+            <strong id="cost">₹0</strong>
+        </div>
+    </div>
+
+    <h3>🧪 Nutrient Gap</h3>
+
+    <div class="nutrients">
+        <div class="nutrient">
+            <strong>N — <span id="nGap">0</span></strong>
+            <div class="bar"><div class="fill" id="nBar"></div></div>
+        </div>
+        <div class="nutrient">
+            <strong>P — <span id="pGap">0</span></strong>
+            <div class="bar"><div class="fill" id="pBar"></div></div>
+        </div>
+        <div class="nutrient">
+            <strong>K — <span id="kGap">0</span></strong>
+            <div class="bar"><div class="fill" id="kBar"></div></div>
+        </div>
+    </div>
+
+    <div class="advice" id="advice"></div>
+
+    <p class="info">
+        ⚠️ Hackathon prototype only. Actual fertilizer/compost recommendations
+        should be validated using local agronomic guidelines, soil tests and
+        laboratory analysis of organic materials.
+    </p>
+</div>
+
+</div>
+</div>
+
+<footer>
+    Kalpvruksh 2.0 Mini Hackathon • AgriNutrient Advisor
+</footer>
+
+<script>
+const cropNeeds = {
+    wheat:{n:120,p:60,k:40},
+    rice:{n:100,p:50,k:50},
+    cotton:{n:150,p:60,k:60},
+    vegetable:{n:100,p:50,k:80}
+};
+
+const materialNames = {
+    compost:"Compost",
+    farmyard_manure:"Farmyard Manure",
+    vermicompost:"Vermicompost",
+    crop_residue_compost:"Crop Residue Compost"
+};
+
+function calculate(){
+
+    const crop = document.getElementById("crop").value;
+    const area = Number(document.getElementById("area").value);
+    const soilN = Number(document.getElementById("soil_n").value);
+    const soilP = Number(document.getElementById("soil_p").value);
+    const soilK = Number(document.getElementById("soil_k").value);
+
+    const matN = Number(document.getElementById("mat_n").value);
+    const matP = Number(document.getElementById("mat_p").value);
+    const matK = Number(document.getElementById("mat_k").value);
+    const moisture = Number(document.getElementById("moisture").value);
+    const cn = Number(document.getElementById("cn").value);
+    const price = Number(document.getElementById("price").value);
+
+    if(area <= 0 || matN <= 0 || matP <= 0 || matK <= 0){
+        alert("Please enter valid positive values.");
+        return;
+    }
+
+    const req = cropNeeds[crop];
+
+    const nGap = Math.max(req.n-soilN,0);
+    const pGap = Math.max(req.p-soilP,0);
+    const kGap = Math.max(req.k-soilK,0);
+
+    let availability = 0.50;
+
+    if(cn <= 20) availability += 0.10;
+    else if(cn > 30) availability -= 0.10;
+
+    if(moisture < 30) availability -= 0.10;
+    else if(moisture > 70) availability -= 0.05;
+
+    availability = Math.max(0.20,Math.min(0.70,availability));
+
+    const usableN = (matN/100)*availability;
+    const usableP = (matP/100)*availability;
+    const usableK = (matK/100)*availability;
+
+    const qN = nGap/usableN;
+    const qP = pGap/usableP;
+    const qK = kGap/usableK;
+
+    const recommended = Math.max(qN,qP,qK);
+    const minimum = recommended * 0.75;
+    const maximum = recommended * 1.25;
+
+    const totalKg = recommended * area;
+    const cost = totalKg * price;
+
+    document.getElementById("result").style.display="block";
+
+    document.getElementById("outCrop").textContent =
+        crop.charAt(0).toUpperCase()+crop.slice(1);
+
+    document.getElementById("outMaterial").textContent =
+        materialNames[document.getElementById("material").value];
+
+    document.getElementById("outStage").textContent =
+        document.getElementById("stage").value;
+
+    document.getElementById("minimum").textContent =
+        minimum.toFixed(0)+" kg/acre";
+
+    document.getElementById("recommended").textContent =
+        recommended.toFixed(0)+" kg/acre";
+
+    document.getElementById("cost").textContent =
+        "₹"+cost.toLocaleString("en-IN",{maximumFractionDigits:0});
+
+    document.getElementById("nGap").textContent =
+        nGap.toFixed(1)+" kg/ha";
+
+    document.getElementById("pGap").textContent =
+        pGap.toFixed(1)+" kg/ha";
+
+    document.getElementById("kGap").textContent =
+        kGap.toFixed(1)+" kg/ha";
+
+    document.getElementById("nBar").style.width =
+        Math.min(nGap/req.n*100,100)+"%";
+
+    document.getElementById("pBar").style.width =
+        Math.min(pGap/req.p*100,100)+"%";
+
+    document.getElementById("kBar").style.width =
+        Math.min(kGap/req.k*100,100)+"%";
+
+    let advice =
+        "<strong>💡 Smart Advisory</strong><br>";
+
+    if(cn > 30)
+        advice += "High C:N ratio detected — nutrient release may be slower.<br>";
+
+    if(moisture < 30)
+        advice += "Low moisture may reduce decomposition and nutrient availability.<br>";
+
+    if(moisture > 70)
+        advice += "High moisture detected — monitor storage and decomposition conditions.<br>";
+
+    if(recommended > 10000)
+        advice += "⚠️ Very high estimated quantity. Re-check soil and material laboratory values.<br>";
+
+    if(document.getElementById("stage").value === "Vegetative")
+        advice += "Vegetative stage: nitrogen availability is especially important.<br>";
+
+    if(document.getElementById("stage").value === "Flowering")
+        advice += "Flowering stage: maintain balanced nutrient availability.<br>";
+
+    if(document.getElementById("stage").value === "Fruiting")
+        advice += "Fruiting stage: monitor overall nutrient balance and crop response.<br>";
+
+    advice += "<br><strong>Estimated availability factor:</strong> "
+        + (availability*100).toFixed(0)+"%";
+
+    document.getElementById("advice").innerHTML=advice;
+
+    document.getElementById("result").scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+    });
+}
+
+function resetForm(){
+    location.reload();
+}
+</script>
+
+</body>
+</html>
